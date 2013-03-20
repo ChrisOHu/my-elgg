@@ -1,0 +1,304 @@
+/*
+ *
+ * Elgg Pearl
+ *
+ * @package pearl
+ * @author Clifton Barron - SocialApparatus
+ * @license Commercial
+ * @copyright Copyright (c) 2012, Clifton Barron
+ *
+ *@link http://socia.us
+*/
+
+
+/* Overall style*/
+body {
+    background:url("../graphics/body.png") top center no-repeat #EEEEEE;
+    font-family: 'Ubuntu', sans-serif;
+}
+.elgg-page-default .elgg-page-header > .elgg-inner {
+    width: 990px;
+    margin: 0px auto;
+    height: 200px;
+}
+.elgg-page-topbar {
+    display:none;
+}
+/* Menu style */
+.elgg-menu-site-default {    
+    background: url("../graphics/menu.jpg") repeat-x scroll left top rgb(242, 242, 242);
+    width: 100%;
+    height:98px;
+    padding:0px;
+/*    border-right: 1px solid rgb(228, 228, 228);
+    border-width: medium 1px 1px;
+    border-style: none solid solid;
+    border-color: -moz-use-text-color rgb(228, 228, 228) rgb(228, 228, 228);
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;*/
+    border-image: none;
+    border-radius: 29px 29px 29px 29px;
+    margin-bottom: 1px;
+    box-shadow: 0px 1px 1px rgb(225, 225, 225);
+}
+.elgg-menu-site-default > li {
+    margin-top:20px;
+    margin-left:12px;
+}
+.elgg-menu-site-default > li:first-child {
+    float: left;
+    margin:20px 0px 0px 24px;
+}
+.elgg-menu-site-default > li a {
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    color: #333333;
+    letter-spacing: 0px;
+    word-spacing: 0px;
+    display: block;
+    border: medium none;
+    border-radius: 20px 20px 20px 20px;
+    float: left;
+    height:50px;
+    line-height:50px;
+    padding-bottom:4px;
+    font-size:16px;
+    font-weight:700;
+}
+.elgg-menu-site-default > li a:hover, .elgg-menu-site-default > .elgg-state-selected > a, .elgg-menu-site-default > li:hover > a {
+    background:#333333;
+    box-shadow: 1px 1px 2px #333333;
+    color:#ffffff;
+    text-shadow:none;
+}
+.elgg-menu-site-default > li:last-child a:hover, .elgg-menu-site-default > li a, .elgg-menu-site-default > li:last-child:hover, .elgg-menu-site-default > li:last-child a:hover {
+    box-shadow:none;
+}
+.elgg-menu-site-default > li:last-child li {
+    box-shadow:none;
+}
+li:hover.elgg-more  {
+    background:#333333;
+    border-radius:20px;
+}
+.elgg-menu-site-more > li > a {
+    background-color: #333333;
+    color: #ffffff;
+    border-radius: 10px;
+    box-shadow: none;
+    margin-left:10px;
+    text-shadow:none;
+    /* width:98px; */
+    padding-left:21px;
+    text-align:left;
+    font-weight:700;
+    clear:left;
+}
+.elgg-menu-site-more > li:last-child > a {
+    margin-bottom:10px;
+}
+.elgg-menu-site-more > li > a:hover {
+    background:#ffffff;
+    color:#333333;
+}
+.elgg-heading-site, .elgg-heading-site:hover {
+    font-size: 2.1em;
+    line-height: 1.4em;
+    text-decoration: none;
+    color:#333333;
+    text-shadow:1px 1px 1px #ffffff;
+    font-family: 'Oleo Script Swash Caps', cursive;
+    margin-left:20px;
+    margin-top:10px;
+    float:left;
+}
+.elgg-search-header {
+    bottom: 45px;
+    height: 23px;
+    position: absolute;
+    right: 18px;
+    z-index:1001;
+}
+.elgg-search input[type="text"],.elgg-search input[type="text"]:focus, .elgg-search input[type="text"]:active {
+    width: 240px;
+    height: 35px;
+    background: none repeat scroll 0% 0% rgb(255, 255, 255);
+    border-right: medium none;
+    border-width: 1px medium medium 1px;
+    border-style: solid none none solid;
+    border-color: rgb(216, 216, 216) -moz-use-text-color -moz-use-text-color rgb(216, 216, 216);
+    -moz-border-top-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    border-image: none;
+    float: left;
+    padding: 0px 30px 0px 11px;
+    line-height: 32px;
+    font-size: 13px;
+    border-radius: 9px 9px 9px 9px;
+    color: rgb(37, 36, 36);
+}
+.elgg-module-featured > .elgg-head * {
+    color: #333333;
+}
+.elgg-module-featured > .elgg-head {
+    padding: 5px;
+    background: none;
+}
+.elgg-module-featured {
+    border: none;
+    border-radius: 6px 6px 6px 6px;
+}
+#user_menu {
+    width:300px;
+    background:url("../graphics/gradient.jpg") bottom left repeat-x #ffffff;
+    position:absolute;
+    top:0px;
+    right:0px;
+    z-index:1002;
+    border-radius: 0px 0px 20px 20px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+    border-left: 1px solid rgb(230, 230, 230);
+    border-right: 1px solid rgb(230, 230, 230);
+    padding:10px;
+}
+.user_menu_tag {
+    position:absolute;
+    bottom:-20px;
+    right:30px;
+    height:20px;
+    background:#F2F2F2;
+    border-radius: 0px 0px 30px 30px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+    border-left: 1px solid rgb(230, 230, 230);
+    border-right: 1px solid rgb(230, 230, 230);
+    z-index:10000;
+    padding:0px 20px;
+    cursor:pointer;
+    font-weight:700;
+}
+.loginform {
+    width:200px;
+    margin:30px auto;
+}
+.registerform {
+    width:200px;
+    margin:10px auto;
+    display:none;
+}
+.user_menu_holder {
+    display:none;
+}
+.login_register_tabs {
+    float:left;
+}
+span.login_tab, span.register_tab {
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    color: rgb(51, 51, 51);
+    letter-spacing: 0px;
+    word-spacing: 0px;
+    display: block;
+    border: medium none;
+    border-radius: 20px 20px 20px 20px;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    padding-bottom: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    background: none repeat scroll 0% 0% rgb(51, 51, 51);
+    color: rgb(255, 255, 255);
+    text-shadow: none;
+    padding:0px 20px;
+    margin:5px;
+    box-shadow: 1px 1px 2px rgb(51, 51, 51);
+    cursor:pointer;
+}
+span.login_tab {
+    margin-left:63px;
+}
+span.login_tab.active, span.register_tab.active, span.login_tab:hover, span.register_tab:hover {
+    box-shadow:none;
+}
+.user_menu_icons {
+    float:right;
+    margin-top:6px;
+}
+.user_menu_avatar {
+    float:left;
+    margin:4px;
+}
+.your_dashboard, .your_profile, .your_inbox, .your_friends, .your_settings, .edit_profile, .edit_avatar, .logout {
+    width:40px;
+    height:40px;
+    float:left;
+    margin:4px;
+    background :url("../graphics/user_menu_sprite.png") #dddddd;
+    background-color: #dddddd;
+    border-radius:6px;
+    cursor:pointer;
+    transition: background-color 500ms linear;
+    box-shadow:0px 0px 3px #dddddd;
+    position:relative;
+}
+.your_dashboard:hover, .your_profile:hover, .your_inbox:hover, .your_friends:hover, .your_settings:hover, .edit_profile:hover, .edit_avatar:hover, .logout:hover {
+    background-color:#ffffff;
+    transition: background-color 500ms linear;
+}
+.your_dashboard {
+    background-position:0px 0px;
+}
+.your_profile {
+    background-position:-40px 0px;
+}
+.your_inbox {
+    background-position:-80px 0px;
+}
+.your_settings {
+    background-position:-160px 0px;
+}
+.edit_profile {
+    background-position:-200px 0px;
+}
+.logout {
+    background-position:-240px 0px;
+}
+.your_friends {
+    background-position:-280px 0px;
+}
+.edit_avatar {
+    background-position:-320px 0px;
+}
+.user_menu_tooltip {
+    position:absolute;
+    bottom:-30px;
+    background:#333333;
+    padding:4px 8px;
+    border-radius:8px;
+    color:#ffffff;
+    text-shadow:none;
+    width:auto;
+    display:none;
+    z-index:11000;
+    box-shadow:0px 0px 4px #ffffff;
+}
+.elgg-button-dropdown {
+    display:none;
+}
+.slider-wrapper { 
+	width: 990px; 
+	margin: 20px auto;
+}
+.clear {
+	clear:both;
+}
