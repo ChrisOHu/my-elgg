@@ -42,7 +42,10 @@ $posted = 0, $annotation_id = 0) {
 		$posted = time();
 	}
 	if ($access_id === "") {
-		$access_id = $object->access_id;
+		/**To replace the original default access level: We want river-items' default access is ACCESS_FRIEND
+		 *$access_id = $object->access_id;
+		 */
+		$access_id = ACCESS_FRIENDS;
 	}
 	$type = $object->getType();
 	$subtype = $object->getSubtype();

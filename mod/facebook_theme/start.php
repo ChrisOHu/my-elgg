@@ -36,6 +36,7 @@ function facebook_theme_init() {
 	 */
 	elgg_register_plugin_hook_handler('permissions_check:annotate', 'all', 'facebook_theme_annotation_permissions_handler');
 	elgg_register_plugin_hook_handler('container_permissions_check', 'all', 'facebook_theme_container_permissions_handler');
+	elgg_register_plugin_hook_handler('access:collections:write', 'user', 'facebook_theme_write_access_collections_handler');
 	
 	/**
 	 * Miscellaneous customizations
@@ -424,6 +425,16 @@ function facebook_theme_annotation_permissions_handler($hook, $type, $result, $p
 	}
 }
 
+/**
+ * When user creates something, forbid him/her the options to write to public or loggedin-nonfriend-users' collections/river.
+ *
+ * @todo Unit test.
+ */
+function facebook_theme_write_access_collections_handler($hook, $type, $access_array, $params)  {
+	unset($access_array[ACCESS_PUBLIC]);
+	unset($access_array[ACCESS_LOGGED_IN]);
+	return $access_array;
+}
 /**
  * Adds menu items to the "composer" at the top of the "wall".  Need to also add
  * the forms that these items point to.
