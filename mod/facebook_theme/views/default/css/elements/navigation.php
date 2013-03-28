@@ -451,10 +451,17 @@
 /* ***************************************
 	RIVER
 *************************************** */
+.elgg-river-item > .elgg-body{
+	position: relative;
+}
+
 .elgg-menu-river {
 	color: #888;
 	display: inline-block;
 	margin: 3px 0 0 -3px;
+	position: absolute;
+	right: 0;
+	top: 0;
 }
 
 .elgg-menu-river > li {

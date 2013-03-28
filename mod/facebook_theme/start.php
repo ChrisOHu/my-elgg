@@ -587,7 +587,8 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				$options = array(
 					'name' => 'like',
 					'href' => "action/likes/add?guid={$object->guid}",
-					'text' => elgg_echo('likes:likethis'),
+					'title' => elgg_echo('like this'),
+					'text' => elgg_view_icon('thumbs-up'),//elgg_echo('likes:likethis'),
 					'is_action' => true,
 					'priority' => 100,
 				);
@@ -596,7 +597,8 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				$options = array(
 					'name' => 'like',
 					'href' => "action/likes/delete?guid={$object->guid}",
-					'text' => elgg_echo('likes:remove'),
+					'title' => elgg_echo('dislike this'),
+					'text' => elgg_view_icon('thumbs-down'),//elgg_echo('likes:remove'),
 					'is_action' => true,
 					'priority' => 100,
 				);
@@ -609,7 +611,7 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 			$items[] = ElggMenuItem::factory(array(
 				'name' => 'comment',
 				'href' => "#comments-add-$object->guid",
-				'text' => elgg_echo('comment'),
+				'text' => elgg_view_icon('speech-bubble'),//elgg_echo('comment'),
 				'title' => elgg_echo('comment:this'),
 				'rel' => "toggle",
 				'priority' => 50,
@@ -620,7 +622,8 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 			$items[] = ElggMenuItem::factory(array(
 				'name' => 'addfriend',
 				'href' => "/action/friends/add?friend=$object->guid",
-				'text' => elgg_echo('friend:user:add', array($object->name)),
+				'title' => elgg_echo('add friend'),
+				'text' => elgg_view_icon('round-plus'),//elgg_echo('friend:user:add', array($object->name)),
 				'is_action' => TRUE,
 			));
 		}
@@ -631,6 +634,19 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				'href' => "#groups-reply-$object->guid",
 				'title' => elgg_echo('reply:this'),
 				'text' => elgg_echo('reply'),
+			));
+		}
+
+		//@todo: currently, this does noting
+		//1.add owner_id field in db-river,so each user has a copy of news which were pushed to her;
+		//2.make it ajax, as more user-friendly;
+		//3.replace 'delete' with a cross icon something.
+		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
+			$items[] = ElggMenuItem::factory(array(
+				'name' => 'delete',
+				'href' => "",
+				'title' => elgg_echo('delete this'),
+				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
 			));
 		}
 	}
