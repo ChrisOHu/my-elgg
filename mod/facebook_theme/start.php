@@ -648,8 +648,16 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
 			));
 		}
+	} else if (!elgg_in_context('widgets') && $item->annotation_id && $object instanceof ElggEntity) {
+		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
+			$items[] = ElggMenuItem::factory(array(
+				'name' => 'delete',
+				'href' => "",
+				'title' => elgg_echo('delete this'),
+				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
+			));
+		}
 	}
-
 	return $items;
 }
 
