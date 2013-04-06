@@ -17,8 +17,10 @@ if (empty($body)) {
 	forward(REFERER);
 }
 
-$guid = thewire_save_post($body, elgg_get_logged_in_user_guid(), $access_id, $parent_guid, $method);
-if (!$guid) {
+$ids = thewire_save_post($body, elgg_get_logged_in_user_guid(), $access_id, $parent_guid, $method);
+$guid = $ids["post-id"];
+$rid = $ids["river-id"];
+if (!$guid || !$rid) {
 	register_error(elgg_echo("thewire:error"));
 	forward(REFERER);
 }
@@ -31,4 +33,26 @@ if ($parent_guid) {
 }
 
 system_message(elgg_echo("thewire:posted"));
+if (elgg_is_xhr())
+{
+	$rvitem_array = elgg_get_river(array('id' => $rid));
+	$rvitem = $rvitem_array[0];
+	if (gettype($rvitem) == "object")
+	{
+		$vars = array();
+		$litem = elgg_view_list_item($rvitem, $vars);
+	}
+	else 
+		$litem = null;
+	if ($litem)
+	{
+		if (elgg_instanceof($rvitem))
+			$id = "elgg-{$rvitem->getType()}-{$rvitem->getGUID()}";
+		else
+			$id = "item-{$rvitem->getType()}-{$rvitem->id}";
+
+		$item_class = "elgg-item {$vars['item-class']}";
+		echo "<li id=\"$id\" class=\"$item_class\">$litem</li>";
+	}
+}
 forward(REFERER);

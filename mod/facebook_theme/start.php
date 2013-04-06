@@ -640,7 +640,6 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 		//@todo: currently, this does noting
 		//1.add owner_id field in db-river,so each user has a copy of news which were pushed to her;
 		//2.make it ajax, as more user-friendly;
-		//3.replace 'delete' with a cross icon something.
 		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
 			$items[] = ElggMenuItem::factory(array(
 				'name' => 'delete',

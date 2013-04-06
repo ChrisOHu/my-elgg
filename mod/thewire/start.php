@@ -246,7 +246,7 @@ function thewire_filter($text) {
  * @param int    $access_id   Public/private etc
  * @param int    $parent_guid Parent post guid (if any)
  * @param string $method      The method (default: 'site')
- * @return guid or false if failure
+ * @return array(guid,rid) or false if failure
  */
 function thewire_save_post($text, $userid, $access_id, $parent_guid = 0, $method = "site") {
 	$post = new ElggObject();
@@ -288,7 +288,7 @@ function thewire_save_post($text, $userid, $access_id, $parent_guid = 0, $method
 	}
 
 	if ($guid) {
-		add_to_river('river/object/thewire/create', 'create', $post->owner_guid, $post->guid);
+		$rid = add_to_river('river/object/thewire/create', 'create', $post->owner_guid, $post->guid);
 
 		// let other plugins know we are setting a user status
 		$params = array(
@@ -301,7 +301,10 @@ function thewire_save_post($text, $userid, $access_id, $parent_guid = 0, $method
 		elgg_trigger_plugin_hook('status', 'user', $params);
 	}
 	
-	return $guid;
+	return array(
+		'post-id' => $guid,
+		'river-id' => $rid,
+	);
 }
 
 /**

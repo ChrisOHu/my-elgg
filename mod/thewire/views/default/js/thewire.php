@@ -10,14 +10,16 @@ $site_url = elgg_get_site_url();
 elgg.provide('elgg.thewire');
 
 elgg.thewire.init = function() {
-	$("#thewire-textarea").live('keydown', function() {
+	$("#thewire-textarea").attr('placeholder', 'say something...');
+	$("#thewire-textarea").keydown(function() {
 		elgg.thewire.textCounter(this, $("#thewire-characters-remaining span"), 140);
 	});
-	$("#thewire-textarea").live('keyup', function() {
+	$("#thewire-textarea").keyup(function() {
 		elgg.thewire.textCounter(this, $("#thewire-characters-remaining span"), 140);
 	});
 
-	$(".thewire-previous").live('click', elgg.thewire.viewPrevious);
+	$(".thewire-previous").click(elgg.thewire.viewPrevious);
+	$("#thewire-submit-button").click(elgg.thewire.submitWire);
 };
 
 /**
@@ -26,7 +28,7 @@ elgg.thewire.init = function() {
  * @param {Object}  textarea
  * @param {Object}  status
  * @param {integer} limit
- * @return void
+ * @return integer
  */
 elgg.thewire.textCounter = function(textarea, status, limit) {
 
@@ -42,6 +44,8 @@ elgg.thewire.textCounter = function(textarea, status, limit) {
 		$("#thewire-submit-button").removeAttr('disabled', 'disabled');
 		$("#thewire-submit-button").removeClass('elgg-state-disabled');
 	}
+
+	return remaining_chars;
 };
 
 /**
@@ -83,4 +87,53 @@ elgg.thewire.viewPrevious = function(event) {
 	event.preventDefault();
 };
 
+/**
+ * submit wire post through ajax
+ * @param {Object} event
+ * @return void
+ */
+elgg.thewire.submitWire = function(event) {
+	var $wireform = $(this).closest(".elgg-form-thewire-add");
+	if (!$wireform)
+		return;
+
+	var $url = $wireform.attr("action");
+	var $__elgg_token = $wireform.find('input[name="__elgg_token"]').attr("value");
+	var $__elgg_ts = $wireform.find('input[name="__elgg_ts"]').attr("value");
+	var $wirebody = $wireform.find('textarea[name="body"]').val();
+
+	elgg.assertTypeOf('string', $url);
+	
+	$("#thewire-submit-button").attr('disabled', 'disabled');
+	$("#thewire-submit-button").addClass('elgg-state-disabled');
+	elgg.action($url, {
+		data: {
+			__elgg_token: $__elgg_token,
+			__elgg_ts: $__elgg_ts,
+			body: $wirebody
+		},
+		success: function(rData) {
+			$("#thewire-submit-button").removeAttr('disabled', 'disabled');
+			$("#thewire-submit-button").removeClass('elgg-state-disabled');
+			$("#thewire-textarea").val("");
+			$("#thewire-textarea").attr('placeholder', 'say something...');
+			elgg.thewire.textCounter("#thewire-textarea", $("#thewire-characters-remaining span"), 140);
+			//alert(rData.output);
+			if (rData.output != "")
+			{
+				$(".elgg-list-river").prepend(rData.output);
+			}
+		},
+		error: function(xhr, status, what) {
+			alert("Ops, " + status + " happened and operation failed");
+			$("#thewire-submit-button").removeAttr('disabled', 'disabled');
+			$("#thewire-submit-button").removeClass('elgg-state-disabled');
+			$("#thewire-textarea").val("");
+			$("#thewire-textarea").attr('placeholder', 'say something...');
+			elgg.thewire.textCounter("#thewire-textarea", $("#thewire-characters-remaining span"), 140);
+		}
+	});
+
+	event.preventDefault();
+};
 elgg.register_hook_handler('init', 'system', elgg.thewire.init);
