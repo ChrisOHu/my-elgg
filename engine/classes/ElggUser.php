@@ -339,6 +339,15 @@ class ElggUser extends ElggEntity
 	}
 
 	/**
+	 * Get user's friend-ids
+	 *
+	 * @return array
+	 */
+	public function getFriendIds() {
+		return get_user_friend_ids($this->getGUID());
+	}
+
+	/**
 	 * Gets users who have made this user a friend
 	 *
 	 * @param string $subtype Optionally, the user subtype (leave blank for all)

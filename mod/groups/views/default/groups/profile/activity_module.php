@@ -25,7 +25,9 @@ $all_link = elgg_view('output/url', array(
 
 elgg_push_context('widgets');
 $db_prefix = elgg_get_config('dbprefix');
+$ids = elgg_get_user_river_ids($group->guid, 'all');
 $content = elgg_list_river(array(
+	'ids' => $ids,
 	'limit' => 4,
 	'pagination' => false,
 	'joins' => array("JOIN {$db_prefix}entities e1 ON e1.guid = rv.object_guid"),

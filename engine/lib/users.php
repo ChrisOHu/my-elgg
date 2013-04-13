@@ -395,6 +395,19 @@ $offset = 0) {
 }
 
 /**
+ * Get user's friend-ids
+ *
+ * @param int $user_guid
+ *
+ * @return array
+ */
+function get_user_friend_ids($user_guid) {
+	$id1 = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='friend' AND guid_two=$user_guid");
+	$id2 = get_data("SELECT guid_two FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='friend' AND guid_one=$user_guid");
+	return array_merge($id1, $id2);
+}
+
+/**
  * Obtains the people who have made a given user a friend
  *
  * @param int    $user_guid The user's GUID

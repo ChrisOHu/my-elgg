@@ -200,6 +200,17 @@ function get_site_objects($site_guid, $subtype = "", $limit = 10, $offset = 0) {
 }
 
 /**
+ * Get users' ids of site(default current).
+ * 
+ * @return array
+ */
+function get_site_user_ids($site_guid)
+{
+	$user_ids = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='member_of_site' AND guid_two=$site_guid");
+	return $user_ids;
+}
+
+/**
  * Return the site via a url.
  *
  * @param string $url The URL of a site

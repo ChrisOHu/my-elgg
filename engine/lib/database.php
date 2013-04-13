@@ -531,6 +531,27 @@ function delete_data($query) {
 	return FALSE;
 }
 
+/**
+ * Handles get_data() returned array of stdClass objects of only one member, transfer to array of values, strip off the wrappers.
+ * Caution: This will get all values of array of objects into array of values.
+ *
+ * @param array $records An array of stdClass
+ * 
+ * @return array An array of values
+ */
+function elgg_get_value_array_of_object_array($records) {
+	if (!$records || !is_array($records))
+		return array();
+
+	$values = array();
+	foreach ($records as $key => $object) {
+		if ($object instanceof stdClass)
+			foreach ($object as $name => $value)
+				$values[] = $value;
+	}
+
+	return $values;
+}
 
 /**
  * Return tables matching the database prefix {@link $CONFIG->dbprefix}% in the currently

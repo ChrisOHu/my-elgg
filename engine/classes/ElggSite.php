@@ -296,6 +296,15 @@ class ElggSite extends ElggEntity {
 	}
 
 	/**
+	 * Get site user-ids
+	 *
+	 * @return array
+	 */
+	public function getSiteUserIds() {
+		return get_site_user_ids($this->getGUID());
+	}
+
+	/**
 	 * Adds an object to the site.
 	 *
 	 * @param int $object_guid GUID

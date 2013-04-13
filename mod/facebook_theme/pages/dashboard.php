@@ -11,6 +11,7 @@ $composer = elgg_view('page/elements/composer', array('entity' => $user));
 
 
 $db_prefix = elgg_get_config('dbprefix');
+/*
 $activity = elgg_list_river(array(
 	'joins' => array("JOIN {$db_prefix}entities object ON object.guid = rv.object_guid"),
 	'wheres' => array("
@@ -19,6 +20,8 @@ $activity = elgg_list_river(array(
 		OR rv.subject_guid IN (SELECT guid_one FROM {$db_prefix}entity_relationships WHERE guid_two=$user->guid AND relationship='friend')
 	"),
 ));
+ */
+$activity = elgg_get_pageowner_river('all');
 
 elgg_set_page_owner_guid(1);
 $content = elgg_view_layout('two_sidebar', array(

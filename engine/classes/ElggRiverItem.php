@@ -27,6 +27,7 @@ class ElggRiverItem {
 	public $access_id;
 	public $view;
 	public $posted;
+	public $ref_count;
 
 	/**
 	 * Construct a river item object given a database row.
@@ -39,7 +40,7 @@ class ElggRiverItem {
 		}
 
 		// the casting is to support typed serialization like json
-		$int_types = array('id', 'subject_guid', 'object_guid', 'annotation_id', 'access_id', 'posted');
+		$int_types = array('id', 'subject_guid', 'object_guid', 'annotation_id', 'access_id', 'posted', 'ref_count');
 		foreach ($object as $key => $value) {
 			if (in_array($key, $int_types)) {
 				$this->$key = (int)$value;

@@ -39,6 +39,7 @@ switch ($page_type) {
 		break;
 }
 
+$options['ids'] = elgg_get_user_river_ids($options['subject_guid'], 'all');
 $activity = elgg_list_river($options);
 if (!$activity) {
 	$activity = elgg_echo('river:none');

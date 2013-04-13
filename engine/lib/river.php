@@ -89,7 +89,15 @@ $posted = 0, $annotation_id = 0) {
 		" subject_guid = $subject_guid, " .
 		" object_guid = $object_guid, " .
 		" annotation_id = $annotation_id, " .
-		" posted = $posted");
+		" posted = $posted, " .
+		" ref_count = 1");
+	//Update creater's river in table(river-peruser)
+	$rst = insert_data("insert into {$CONFIG->dbprefix}river_peruser " .
+		" set user_guid = $subject_guid, " .
+		" set river_item_id = $id, " .
+		" set isCreater = 1");
+	if ($rst == false)
+		return false;
 
 	// update the entities which had the action carried out on it
 	// @todo shouldn't this be down elsewhere? Like when an annotation is saved?
@@ -104,6 +112,120 @@ $posted = 0, $annotation_id = 0) {
 	} else {
 		return false;
 	}
+}
+
+/**
+ * Update rivers 
+ * 
+ * @param
+ * 	event		  =>created
+ * 	object_type	  =>river
+ * 	object		  =>ElggRiverItem
+ * @return 
+ * 	bool
+ */
+function elgg_update_rivers($event, $object_type, $object) {
+	if (!($object) || !($object instanceof ElggRiverItem))
+		return false;
+	if ($object->access_id == ACCESS_PRIVATE)
+		return false;
+
+	if ($object->access_id == ACCESS_PUBLIC || $object->access_id == ACCESS_LOGGED_IN) {
+		$site = elgg_get_site_entity();
+		if ($site && $site instanceof ElggSite) {
+			$notifiees = $site->getSiteUserIds();
+			return elgg_add_to_user_rivers($notifiees, $object);
+		}
+
+		return false;
+	}
+	else if ($object->access_id == ACCESS_FRIENDS) {
+		$user = elgg_get_logged_in_user_entity();
+		if ($user && $user instanceof ElggUser) {
+			$notifiees = $user->getFriendIds();
+			return elgg_add_to_user_rivers($notifiees, $objects);
+		}
+		return false;
+	}
+	else 
+		return false;
+}
+
+/**
+ * add to users' rivers
+ *
+ * @param
+ * 	array 		$ids
+ * 	ElggRiverItem 	$object
+ *
+ * @return
+ * 	bool
+ */
+function elgg_add_to_user_rivers($ids, $object) {
+	global $CONFIG;
+	if (!$ids || !is_array($ids) || !$object || !($object instanceof ElggRiverItem))
+		return false;
+
+	$count = 0;
+	$valid_ids = array();
+	foreach ($ids as $id) {
+		if (get_user($id)) {
+			$valid_ids[$count++] = $id;
+		}
+	}
+
+	if ($count > 0)	{
+		$rv_id = $object->id;
+		foreach ($valid_ids as $key => $id) {
+			if ($key < $count)
+				$value .= "($id, $rv_id, 0),";
+			else
+				$value .= "($id, $rv_id, 0)";
+		}
+		$result = insert_data("INSERT INTO {$CONFIG->dbprefix}river_peruser(user_guid, river_item_id, isCreater) VALUES " . $value);
+		if ($result != false) {
+			$result = update_data("UPDATE {$CONFIG->dbprefix}river SET ref_count=ref_count+$count+1 WHERE id=$rv_id");
+			if ($result != false)
+				return true;
+		}	
+	}
+	return false;
+}
+
+/**
+ * delete from user' river
+ *
+ * @param
+ * 	int		$user_id
+ * 	ElggRiverItem	$object
+ *
+ * @return 
+ * 	bool
+ */
+function elgg_delete_from_user_river($id, $object) {
+	global $CONFIG;
+
+	if (get_user($id) && $object && $object instanceof ElggRiverItem)
+	{
+		$oid = $object->id;
+		$result = delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE user_guid=$id AND river_item_id=$oid");
+		if ($result != false) {
+			$rv = elgg_get_river(array('id' => $oid));		
+			$rvitem = $rv[0];
+			if ($rvitem && $rvitem instanceof ElggRiverItem)
+			{
+				if (($rvitem->ref_count-1) <= 0) 
+					$result = delete_data("DELETE FROM {$CONFIG->dbprefix}river WHERE id=$oid AND ref_count<=1");
+				else
+					$result = update_data("UPDATE {$CONFIG->dbprefix}river SET ref_count=ref_count-1 WHERE id=$oid");
+
+				if ($result != false)
+					return true;
+			}
+		}
+	}
+	
+	return false;
 }
 
 /**
@@ -210,7 +332,12 @@ function elgg_delete_river(array $options = array()) {
 	}
 	$query .= "1=1";
 
-	return delete_data($query);
+	$result = delete_data($query);
+	if ($result != false) {
+		return delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE river_item_id NOT IN (SELECT id FROM {$CONFIG->dbprefix}entroriver)");
+	}
+	else
+		return false;
 }
 
 /**
@@ -449,6 +576,56 @@ function elgg_list_river(array $options = array()) {
 	$options['count'] = $count;
 	$options['items'] = $items;
 	return elgg_view('page/components/list', $options);
+}
+
+/**
+ * Get user's river news, if logged-in user then return her full river or specific news depending on current context(dashboard or
+ * profile), otherwise just pageowner's specific news (profile).
+ *
+ * @param int $guid
+ * @param string $what, 'all' or 'own', here own is adjective
+ * @return array of int, river item ids
+ */
+function elgg_get_user_river_ids($guid, $what) {
+	global $CONFIG;
+
+	if ($guid > 0) {
+		if ($what == 'all') {
+			$rv_item_ids = get_data("SELECT river_item_id FROM {$CONFIG->dbprefix}river_peruser WHERE user_guid=$guid");
+		}
+		else if ($what = 'own') {
+			$rv_item_ids = get_data("SELECT river_item_id FROM {$CONFIG->dbprefix}river_peruser WHERE user_guid=$guid AND isCreater=1");
+		}
+		else
+			return null;
+		return elgg_get_value_array_of_object_array($rv_item_ids);
+	}
+
+	return null;
+}
+
+/**
+ * Get user's whole river, just a wrapper of elgg_list_river with pageowner river-item-ids passed in.
+ * Owner: current user: dashboard  profile
+ * 	  otheruser   : profile
+ * Caution: Dont do this to groups, as all group members share the same river news which means non but super can delete a news
+ *
+ * @return string(river list view)
+ */
+function elgg_get_pageowner_river($what = 'own') {
+	$pageowner = elgg_get_page_owner_guid();
+	$entity = elgg_get_page_owner_entity();
+	$logged_in = elgg_get_logged_in_user_guid();
+
+	if ($pageowner != $logged_in && !elgg_instanceof($entity, 'group'))
+		$what = 'own';
+
+	$options = array();
+	$options['ids'] = elgg_get_user_river_ids($pageowner, $what);
+
+	if (!isset($options['ids']) || !is_array($options['ids']))
+		return "";
+	return elgg_list_river($options);
 }
 
 /**
@@ -698,6 +875,8 @@ function elgg_river_init() {
 	elgg_register_action('river/delete', '', 'admin');
 
 	elgg_register_plugin_hook_handler('unit_test', 'system', 'elgg_river_test');
+
+	elgg_register_event_handler('created', 'river', 'elgg_update_rivers');
 }
 
 elgg_register_event_handler('init', 'system', 'elgg_river_init');
