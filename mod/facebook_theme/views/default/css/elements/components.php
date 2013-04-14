@@ -216,6 +216,10 @@
 	padding: 4px;
 }
 
+.elgg-form-comments-add {
+	display: none;
+}
+
 <?php //@todo location-dependent styles ?>
 .elgg-river-layout .elgg-input-dropdown {
 	float: right;
