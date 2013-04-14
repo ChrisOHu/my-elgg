@@ -335,7 +335,7 @@ function elgg_delete_river(array $options = array()) {
 
 	$result = delete_data($query);
 	if ($result !== false) {
-		return delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE river_item_id NOT IN (SELECT id FROM {$CONFIG->dbprefix}entroriver)");
+		return delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE river_item_id NOT IN (SELECT id FROM {$CONFIG->dbprefix}river)");
 	}
 	else
 		return false;
