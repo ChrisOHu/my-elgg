@@ -402,8 +402,9 @@ $offset = 0) {
  * @return array
  */
 function get_user_friend_ids($user_guid) {
-	$id1 = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='friend' AND guid_two=$user_guid");
-	$id2 = get_data("SELECT guid_two FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='friend' AND guid_one=$user_guid");
+	global $CONFIG;
+	$id1 = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationships WHERE relationship='friend' AND guid_two=$user_guid");
+	$id2 = get_data("SELECT guid_two FROM {$CONFIG->dbprefix}entity_relationships WHERE relationship='friend' AND guid_one=$user_guid");
 	return array_merge($id1, $id2);
 }
 

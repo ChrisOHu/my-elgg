@@ -94,10 +94,12 @@ $posted = 0, $annotation_id = 0) {
 	//Update creater's river in table(river-peruser)
 	$rst = insert_data("insert into {$CONFIG->dbprefix}river_peruser " .
 		" set user_guid = $subject_guid, " .
-		" set river_item_id = $id, " .
-		" set isCreater = 1");
-	if ($rst == false)
+		" river_item_id = $id, " .
+		" isCreater = 1");
+	echo "rst=" . $rst;
+	if ($rst === false) {
 		return false;
+	}
 
 	// update the entities which had the action carried out on it
 	// @todo shouldn't this be down elsewhere? Like when an annotation is saved?

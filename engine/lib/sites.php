@@ -206,7 +206,8 @@ function get_site_objects($site_guid, $subtype = "", $limit = 10, $offset = 0) {
  */
 function get_site_user_ids($site_guid)
 {
-	$user_ids = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationship WHERE relationship='member_of_site' AND guid_two=$site_guid");
+	global $CONFIG;
+	$user_ids = get_data("SELECT guid_one FROM {$CONFIG->dbprefix}entity_relationships WHERE relationship='member_of_site' AND guid_two=$site_guid");
 	return $user_ids;
 }
 
