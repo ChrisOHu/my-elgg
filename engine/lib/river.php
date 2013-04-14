@@ -96,7 +96,6 @@ $posted = 0, $annotation_id = 0) {
 		" set user_guid = $subject_guid, " .
 		" river_item_id = $id, " .
 		" isCreater = 1");
-	echo "rst=" . $rst;
 	if ($rst === false) {
 		return false;
 	}
@@ -185,9 +184,9 @@ function elgg_add_to_user_rivers($ids, $object) {
 				$value .= "($id, $rv_id, 0)";
 		}
 		$result = insert_data("INSERT INTO {$CONFIG->dbprefix}river_peruser(user_guid, river_item_id, isCreater) VALUES " . $value);
-		if ($result != false) {
+		if ($result !== false) {
 			$result = update_data("UPDATE {$CONFIG->dbprefix}river SET ref_count=ref_count+$count+1 WHERE id=$rv_id");
-			if ($result != false)
+			if ($result !== false)
 				return true;
 		}	
 	}
@@ -211,7 +210,7 @@ function elgg_delete_from_user_river($id, $object) {
 	{
 		$oid = $object->id;
 		$result = delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE user_guid=$id AND river_item_id=$oid");
-		if ($result != false) {
+		if ($result !== false) {
 			$rv = elgg_get_river(array('id' => $oid));		
 			$rvitem = $rv[0];
 			if ($rvitem && $rvitem instanceof ElggRiverItem)
@@ -221,7 +220,7 @@ function elgg_delete_from_user_river($id, $object) {
 				else
 					$result = update_data("UPDATE {$CONFIG->dbprefix}river SET ref_count=ref_count-1 WHERE id=$oid");
 
-				if ($result != false)
+				if ($result !== false)
 					return true;
 			}
 		}
@@ -335,7 +334,7 @@ function elgg_delete_river(array $options = array()) {
 	$query .= "1=1";
 
 	$result = delete_data($query);
-	if ($result != false) {
+	if ($result !== false) {
 		return delete_data("DELETE FROM {$CONFIG->dbprefix}river_peruser WHERE river_item_id NOT IN (SELECT id FROM {$CONFIG->dbprefix}entroriver)");
 	}
 	else
