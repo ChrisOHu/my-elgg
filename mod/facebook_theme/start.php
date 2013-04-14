@@ -597,7 +597,7 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				$options = array(
 					'name' => 'like',
 					'href' => "action/likes/delete?guid={$object->guid}",
-					'title' => elgg_echo('dislike this'),
+					'title' => elgg_echo('remove your like'),
 					'text' => elgg_view_icon('thumbs-down'),//elgg_echo('likes:remove'),
 					'is_action' => true,
 					'priority' => 100,
