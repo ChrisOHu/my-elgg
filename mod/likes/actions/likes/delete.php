@@ -22,6 +22,8 @@ if (!$like) {
 }
 
 if ($like && $like->canEdit()) {
+	$id = array('id' => $like->id);
+	echo json_encode($id);
 	$like->delete();
 	system_message(elgg_echo("likes:deleted"));
 	forward(REFERER);

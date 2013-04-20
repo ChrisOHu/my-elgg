@@ -589,6 +589,7 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 					'href' => "action/likes/add?guid={$object->guid}",
 					'title' => elgg_echo('like this'),
 					'text' => elgg_view_icon('thumbs-up'),//elgg_echo('likes:likethis'),
+					'class' => "elgg-likes-submit-add",
 					'is_action' => true,
 					'priority' => 100,
 				);
@@ -597,8 +598,9 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				$options = array(
 					'name' => 'like',
 					'href' => "action/likes/delete?guid={$object->guid}",
-					'title' => elgg_echo('remove your like'),
+					'title' => elgg_echo('no more like this'),
 					'text' => elgg_view_icon('thumbs-down'),//elgg_echo('likes:remove'),
+					'class' => "elgg-likes-submit-delete",
 					'is_action' => true,
 					'priority' => 100,
 				);

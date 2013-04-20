@@ -4,6 +4,7 @@
  *
  */
 
+//stuff to be liked
 $entity_guid = (int) get_input('guid');
 
 //check to see if the user has already liked the item
@@ -45,6 +46,15 @@ if ($entity->owner_guid != $user->guid) {
 }
 
 system_message(elgg_echo("likes:likes"));
+
+if (elgg_is_xhr()) {
+	$like_item = elgg_get_annotation_from_id($annotation);
+	$vars_l = array();
+	$li = elgg_view_list_item($like_item, $vars_l);
+	if ($li)
+		echo "<li id=\"item-annotation-$annotation\" class=\"elgg-item\">$li</li>";  
+	//elgg_view('likes/river_footer', array('object' => $entity));
+}
 
 // Forward back to the page where the user 'liked' the object
 forward(REFERER);

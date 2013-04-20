@@ -3,31 +3,39 @@
  * Elgg likes display
  *
  * @uses $vars['entity']
+ * 	 $vars['item']
+ * 	 $vars['object']
  */
 
-if (!$vars['item'] instanceof ElggRiverItem || $vars['item']->annotation_id) {
+if ((!$vars['object']) && (!$vars['item'] instanceof ElggRiverItem || $vars['item']->annotation_id)) {
 	return true;
 }
 
-$object = $vars['item']->getObjectEntity();
+if ($vars['object'])
+	$object = $vars['object'];
+else
+	$object = $vars['item']->getObjectEntity();
 
 $num_of_likes = $object->countAnnotations('likes');
 
+/*
 if ($num_of_likes == 0) {
 	return true;
 }
+*/
 
 $guid = $object->guid;
 
 $likes_button = elgg_view_icon('thumbs-up');
 
 // check to see if the user has already liked this
-if (elgg_is_logged_in() && $object->canAnnotate(0, 'likes')) {
+/*if (elgg_is_logged_in() && $object->canAnnotate(0, 'likes')) {
 	if (!elgg_annotation_exists($guid, 'likes')) {
 		$likes_button = elgg_view('output/url', array(
 			'href' => "action/likes/add?guid={$guid}",
 			'text' => elgg_view_icon('thumbs-up'),
 			'title' => elgg_echo('likes:likethis'),
+			'class' => "elgg-likes-submit",
 			'is_action' => true,
 		));
 	} else {
@@ -39,15 +47,19 @@ if (elgg_is_logged_in() && $object->canAnnotate(0, 'likes')) {
 
 		$likes_button = elgg_view('output/url', array(
 			'href' => "action/likes/delete?annotation_id={$likes[0]->id}",
-			'text' => elgg_view_icon('thumbs-up-alt'),
+			'text' => elgg_view_icon('thumbs-down-alt'),
 			'title' => elgg_echo('likes:remove'),
+			'class' => "elgg-likes-submit",
 			'is_action' => true,
 		));
 	}
 }
+ */
 
 // display the number of likes
-if ($num_of_likes == 1) {
+if ($num_of_likes <= 1) {
+	if ($num_of_likes < 0)
+		$num_of_likes = 0;
 	$likes_string = elgg_echo('likes:userlikedthis', array($num_of_likes));
 } else {
 	$likes_string = elgg_echo('likes:userslikedthis', array($num_of_likes));
@@ -66,6 +78,6 @@ $likes_module = elgg_view_module('popup', 'Likes', $likes_list, array('class' =>
 
 $vars['image'] = $likes_button;
 $vars['body'] = $likes_string . $likes_module;
-$vars['class'] = 'elgg-river-participation';
+$vars['class'] = 'elgg-river-participation elgg-image-block-likes';
 
 echo elgg_view('page/components/image_block', $vars);

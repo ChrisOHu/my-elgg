@@ -48,8 +48,8 @@ if ($pagination && $count) {
 	));
 }
 
+$html .= "<ul class=\"$list_class\">";
 if (is_array($items) && count($items) > 0) {
-	$html .= "<ul class=\"$list_class\">";
 	foreach ($items as $item) {
 		$li = elgg_view_list_item($item, $vars);
 		if ($li) {
@@ -61,8 +61,8 @@ if (is_array($items) && count($items) > 0) {
 			$html .= "<li id=\"$id\" class=\"$item_class\">$li</li>";
 		}
 	}
-	$html .= '</ul>';
 }
+$html .= '</ul>';
 
 if ($position == 'before' || $position == 'both') {
 	$html = $nav . $html;

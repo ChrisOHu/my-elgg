@@ -288,6 +288,11 @@ elgg.ui.initDatePicker = function() {
 	}
 };
 
+elgg.ui.initblockUI = function() {
+	$(document).ajaxStop($.unblockUI);
+};
+
 elgg.register_hook_handler('init', 'system', elgg.ui.init);
 elgg.register_hook_handler('init', 'system', elgg.ui.initDatePicker);
+elgg.register_hook_handler('init', 'system', elgg.ui.initblockUI);
 elgg.register_hook_handler('getOptions', 'ui.popup', elgg.ui.loginHandler);
