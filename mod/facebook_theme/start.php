@@ -579,7 +579,7 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 	$item = $params['item'];
 
 	$object = $item->getObjectEntity();
-	if (!elgg_in_context('widgets') && !$item->annotation_id && $object instanceof ElggEntity) {
+	if (!elgg_in_context('widgets') && !($item instanceof ElggAnnotation) /*!$item->annotation_id*/ && $object instanceof ElggEntity) {
 		
 		if (elgg_is_active_plugin('likes') && $object->canAnnotate(0, 'likes')) {
 			if (!elgg_annotation_exists($object->getGUID(), 'likes')) {
@@ -645,21 +645,13 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
 			$items[] = ElggMenuItem::factory(array(
 				'name' => 'delete',
-				'href' => "",
+				'href' => "/action/river/delete?id=$item->id",
 				'title' => elgg_echo('delete this'),
 				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
+				'is_action' => TRUE,
 			));
 		}
-	} else if (!elgg_in_context('widgets') && $item->annotation_id && $object instanceof ElggEntity) {
-		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
-			$items[] = ElggMenuItem::factory(array(
-				'name' => 'delete',
-				'href' => "",
-				'title' => elgg_echo('delete this'),
-				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
-			));
-		}
-	}
+	} 
 	return $items;
 }
 
