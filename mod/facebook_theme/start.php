@@ -65,6 +65,9 @@ function facebook_theme_init() {
 			elgg_unextend_view('page/elements/header', 'search/header');
 		}
 	}
+
+	$actions_base = elgg_get_plugins_path() . 'facebook_theme/actions/river';
+	elgg_register_action('river/delete_user_river_item', "$actions_base/delete_user_river_item.php");
 }
 
 function facebook_theme_groups_page_handler($segments, $handle) {
@@ -577,6 +580,8 @@ function facebook_theme_owner_block_menu_handler($hook, $type, $items, $params) 
 
 function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 	$item = $params['item'];
+	$owner_guid = elgg_get_page_owner_guid();
+	$logged_in_guid = elgg_get_logged_in_user_guid();
 
 	$object = $item->getObjectEntity();
 	if (!elgg_in_context('widgets') && !($item instanceof ElggAnnotation) /*!$item->annotation_id*/ && $object instanceof ElggEntity) {
@@ -639,13 +644,10 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 			));
 		}
 
-		//@todo: currently, this does noting
-		//1.add owner_id field in db-river,so each user has a copy of news which were pushed to her;
-		//2.make it ajax, as more user-friendly;
-		if ($item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
+		if ($owner_guid == $logged_in_guid && $item instanceof ElggRiverItem/*elgg_instanceof($item, 'river', 'item')*/ && $item->id) {
 			$items[] = ElggMenuItem::factory(array(
 				'name' => 'delete',
-				'href' => "/action/river/delete?id=$item->id",
+				'href' => "/action/river/delete_user_river_item?id=$item->id",
 				'title' => elgg_echo('delete this'),
 				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
 				'is_action' => TRUE,

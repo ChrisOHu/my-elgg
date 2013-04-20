@@ -441,6 +441,7 @@ $english = array(
 	'river:update' => 'Update for %s',
 	'river:delete:success' => 'River item has been deleted',
 	'river:delete:fail' => 'River item could not be deleted',
+	'river:delete:illegal' => 'You do not have permission to delete this item',
 
 	'river:widget:title' => "Activity",
 	'river:widget:description' => "Display latest activity",

@@ -23,6 +23,7 @@ $activity = elgg_list_river(array(
  */
 $activity = elgg_get_pageowner_river('all');
 
+//why set pageowner_guid = 1 ??? => seems to cause owner_block not appear in dashboard page
 elgg_set_page_owner_guid(1);
 $content = elgg_view_layout('two_sidebar', array(
 	'title' => $title,
