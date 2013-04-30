@@ -20,4 +20,9 @@ if (!elgg_delete_from_user_river($user_guid, $item)) {
 }
 
 system_message(elgg_echo("river:delete:success"));
+
+if (elgg_is_xhr()) {
+	echo json_encode(array('id' => $item_guid));
+}
+
 forward(REFERER);

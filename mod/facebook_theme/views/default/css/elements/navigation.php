@@ -149,6 +149,10 @@
 	height: 24px;
 }
 
+.elgg-menu-topbar-default {
+	float: right;
+}
+
 .elgg-menu-topbar-default > li > a {
 	padding: 8px 4px 0;
 	margin: 0 1px;
@@ -159,7 +163,7 @@
 }
 
 .elgg-menu-topbar-alt {
-	float:right;
+	float: left;
 	margin-right: 1px;
 }
 .elgg-menu-topbar-alt > li > a {
@@ -543,3 +547,26 @@
 	top: 12px;
 	border-color: transparent transparent white transparent;
 }
+
+/* ***************************************
+    river-categories
+*************************************** */
+.elgg-menu-river-categories {
+	display: inline-block;
+	height: 22px;
+}
+
+.elgg-menu-river-categories > li {
+	font-weight: bold;
+	margin-left: 5px;
+}
+
+.elgg-menu-river-categories > li > a {
+	line-height: 16px;
+	padding-left: 5px;
+}
+
+.elgg-menu-river-categories > li > a:hover {
+	text-decoration: underline;
+}
+

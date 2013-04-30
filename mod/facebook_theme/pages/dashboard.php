@@ -7,8 +7,9 @@ elgg_set_page_owner_guid($user->guid);
 
 $title = elgg_echo('newsfeed');
 
-$composer = elgg_view('page/elements/composer', array('entity' => $user));
-
+//$composer = elgg_view('page/elements/composer', array('entity' => $user));
+$owner_horn = elgg_view('page/elements/owner_horn', array('owner_entity' => $user));
+$river_categories_menu = elgg_view('page/elements/river_categories', array('entity' => $user, 'by' => 'type'));
 
 $db_prefix = elgg_get_config('dbprefix');
 /*
@@ -27,7 +28,7 @@ $activity = elgg_get_pageowner_river('all');
 elgg_set_page_owner_guid(1);
 $content = elgg_view_layout('two_sidebar', array(
 	'title' => $title,
-	'content' => $composer . $activity,
+	'content' => /*$composer .*/ $owner_horn . $river_categories_menu . $activity,
 ));
 
 echo elgg_view_page($title, $content);

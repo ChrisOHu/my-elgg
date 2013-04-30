@@ -172,3 +172,42 @@ img {max-width:100%}
 input[type="checkbox"] {
 	vertical-align:bottom;
 }
+
+/* NEW PAGE COMPONENT: owner-horn*/
+
+.elgg-owner-horn {
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+	padding-bottom: 6px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
+
+.elgg-owner-horn > .elgg-image {
+	display: inline-block;
+	float: left;
+	margin-top: 10px;
+	width: 9%;
+}
+
+.elgg-owner-horn > .elgg-image-alt {
+	display: inline-block;
+	float: none;
+	margin-top: 10px;
+	margin-right: 5px;
+	width: 4%;
+}
+
+.elgg-owner-horn > .elgg-body {
+	display: inline-block;
+	float: right;
+	width: 80%;
+}
+
+
+/* NEW PAGE COMPONENT: river-categories*/
+
+.elgg-river-categories {
+	padding: 5px;
+	margin: 0px;
+}

@@ -11,15 +11,15 @@ elgg.provide('elgg.thewire');
 
 elgg.thewire.init = function() {
 	$("#thewire-textarea").attr('placeholder', 'say something...');
-	$("#thewire-textarea").keydown(function() {
+	$("#thewire-textarea").live('keydown', function() {
 		elgg.thewire.textCounter(this, $("#thewire-characters-remaining span"), 140);
 	});
-	$("#thewire-textarea").keyup(function() {
+	$("#thewire-textarea").live('keyup', function() {
 		elgg.thewire.textCounter(this, $("#thewire-characters-remaining span"), 140);
 	});
 
-	$(".thewire-previous").click(elgg.thewire.viewPrevious);
-	$("#thewire-submit-button").click(elgg.thewire.submitWire);
+	$(".thewire-previous").live('click', elgg.thewire.viewPrevious);
+	$("#thewire-submit-button").live('click', elgg.thewire.submitWire);
 };
 
 /**

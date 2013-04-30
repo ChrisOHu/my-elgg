@@ -28,6 +28,7 @@ function facebook_theme_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:river', 'facebook_theme_river_menu_handler');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'facebook_theme_owner_block_menu_handler', 600);
 	elgg_register_plugin_hook_handler('register', 'menu:composer', 'facebook_theme_composer_menu_handler');
+	elgg_register_plugin_hook_handler('register', 'menu:river-categories', 'facebook_theme_river_categories_menu_handler');
 	
 	elgg_register_event_handler('pagesetup', 'system', 'facebook_theme_pagesetup_handler', 1000);
 	
@@ -65,9 +66,14 @@ function facebook_theme_init() {
 			elgg_unextend_view('page/elements/header', 'search/header');
 		}
 	}
-
-	$actions_base = elgg_get_plugins_path() . 'facebook_theme/actions/river';
-	elgg_register_action('river/delete_user_river_item', "$actions_base/delete_user_river_item.php");
+	
+	$facebook_theme_river_js = elgg_get_simplecache_url('js', 'facebook_theme.river');
+	elgg_register_simplecache_view('js/facebook_theme.river');
+	elgg_register_js('elgg.facebook_theme.river', $facebook_theme_river_js, 'footer');
+	
+	//register actions
+	$actions_base = elgg_get_plugins_path() . 'facebook_theme/actions';
+	elgg_register_action('river/delete_user_river_item', "$actions_base/river/delete_user_river_item.php");
 }
 
 function facebook_theme_groups_page_handler($segments, $handle) {
@@ -298,14 +304,14 @@ function facebook_theme_pagesetup_handler() {
 		elgg_register_menu_item('topbar', array(
 			'href' => '/',
 			'name' => 'logo',
-			'priority' => 1,
+			'priority' => 1000,
 			'text' => "<h1 id=\"facebook-topbar-logo\">$site->name</h1>",
 		));
 	
 		elgg_register_menu_item('topbar', array(
 			'href' => '/dashboard',
 			'name' => 'home',
-			'priority' => 2,
+			'priority' => 1,
 			'section' => 'alt',
 			'text' => elgg_echo('home'),
 		));
@@ -317,7 +323,7 @@ function facebook_theme_pagesetup_handler() {
 				'section' => 'alt',
 				'text' => "<img src=\"{$user->getIconURL('topbar')}\" class=\"elgg-icon elgg-inline-block\" alt=\"$user->name\"/>" . $user->name,
 				'href' => "/profile/$user->username",
-				'priority' => 1,
+				'priority' => 2,
 			));
 		}
 		
@@ -650,10 +656,75 @@ function facebook_theme_river_menu_handler($hook, $type, $items, $params) {
 				'href' => "/action/river/delete_user_river_item?id=$item->id",
 				'title' => elgg_echo('delete this'),
 				'text' => elgg_view_icon('trash'),//elgg_echo('delete'),
+				'class' => "elgg-river-item-delete",
 				'is_action' => TRUE,
 			));
 		}
 	} 
+	return $items;
+}
+
+function facebook_theme_river_categories_menu_handler($hook, $type, $items, $params) {
+	if (!is_array($items) || !$items) {
+		$items = array();
+	}
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'All',
+		'href' => "",
+		'text' => elgg_view_icon('share') . elgg_echo("river-categories:all"),
+		'priority' => 1,
+		'class' => 'elgg-river-all',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Voices',
+		'href' => "",
+		'text' => elgg_view_icon('speech-bubble') . elgg_echo("river-categories:voices"),
+		'priority' => 2,
+		'class' => 'elgg-river-voices',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Blogs',
+		'href' => "",
+		'text' => elgg_view_icon('eye') . elgg_echo("river-categories:blogs"),
+		'priority' => 3,
+		'class' => 'elgg-river-blogs',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Galleries',
+		'href' => "",
+		'text' => elgg_view_icon('photo') . elgg_echo("river-categories:galleries"),
+		'priority' => 4,
+		'class' => 'elgg-river-galleries',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Videos',
+		'href' => "",
+		'text' => elgg_view_icon('video') . elgg_echo("river-categories:videos"),
+		'priority' => 5,
+		'class' => 'elgg-river-videos',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Musics',
+		'href' => "",
+		'text' => elgg_view_icon('star') . elgg_echo("river-categories:musics"),
+		'priority' => 6,
+		'class' => 'elgg-river-musics',
+	));
+
+	$items[] = ElggMenuItem::factory(array(
+		'name' => 'Webmarks',
+		'href' => "",
+		'text' => elgg_view_icon('push-pin') . elgg_echo("river-categories:webmarks"),
+		'priority' => 7,
+		'class' => 'elgg-river-webmarks',
+	));
+
 	return $items;
 }
 

@@ -55,6 +55,9 @@ if ($container instanceof ElggGroup && $container->guid != elgg_get_page_owner_g
 	$group_string = elgg_echo('river:ingroup', array($group_link));
 }
 
+//load river js
+elgg_load_js('elgg.facebook_theme.river');
+
 echo <<<RIVER
 <div class="elgg-river-summary">$summary $group_string</div>
 $message

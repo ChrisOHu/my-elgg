@@ -44,4 +44,12 @@ add_translation('en', array(
 	
 	'settings:user' => 'Account Settings',
 	
+	'river-categories:all' => 'All',
+	'river-categories:voices' => 'Voices',
+	'river-categories:blogs' => 'Blogs',
+	'river-categories:galleries' => 'Galleries',
+	'river-categories:videos' => 'Videos',
+	'river-categories:musics' => 'Musics',
+	'river-categories:webmarks' => 'Webmarks',
+
 ));
