@@ -179,7 +179,7 @@ input[type="checkbox"] {
 	border-top: 1px solid #CCC;
 	border-bottom: 1px solid #CCC;
 	padding-bottom: 6px;
-	margin-top: 7px;
+	margin-top: 0px;
 	margin-bottom: 7px;
 }
 
@@ -208,6 +208,7 @@ input[type="checkbox"] {
 /* NEW PAGE COMPONENT: river-categories*/
 
 .elgg-river-categories {
+	border-bottom: 1px solid #CCC;
 	padding: 5px;
 	margin: 0px;
 }

@@ -14,17 +14,17 @@
 *************************************** */
 /***** DEFAULT LAYOUT ******/
 .elgg-page-default .elgg-page-header > .elgg-inner {
-	width: 981px;
+	width: 95%;
 	margin: 0 auto;
 	height: 90px;
 }
 .elgg-page-default .elgg-page-body > .elgg-inner {
-	width: 981px;
+	width: 95%;
 	margin: 0 auto;
 }
 
 .elgg-page-footer {
-	width: 981px;
+	width: 95%;
 	margin: 0 auto;
 }
 .elgg-page-default .elgg-page-footer > .elgg-inner {
@@ -42,23 +42,23 @@
 
 /***** TOPBAR ******/
 .elgg-page-topbar {
-	background: #3B5998;
+	background: #353535;
 	position: fixed;
-	height: 38px;
+	height: 50px;
 	left: 0;
 	right: 0;
 	z-index: 10000;
 }
 
 .elgg-page-topbar > .elgg-inner {
-	padding-top: 6px;
-	width: 981px;
+	padding-top: 9px;
+	width: 95%;
 	margin: 0 auto;
 	position: relative;
 }
 
 .elgg-page-topbar ~ .elgg-page-body {
-	padding-top: 38px;
+	padding-top: 50px;
 }
 
 /***** PAGE MESSAGES ******/
@@ -96,7 +96,7 @@
 
 .elgg-sidebar {
 	position: relative;
-	padding: 20px 0;
+	padding: 15px 0;
 	float: left;
 	width: 181px;
 	min-height: 360px;

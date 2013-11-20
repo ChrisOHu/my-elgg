@@ -44,6 +44,7 @@ add_translation('en', array(
 	
 	'settings:user' => 'Account Settings',
 	
+	/* river-categories, by object-type */
 	'river-categories:all' => 'All',
 	'river-categories:voices' => 'Voices',
 	'river-categories:blogs' => 'Blogs',
@@ -51,5 +52,27 @@ add_translation('en', array(
 	'river-categories:videos' => 'Videos',
 	'river-categories:musics' => 'Musics',
 	'river-categories:webmarks' => 'Webmarks',
+
+	/* page menu social stuff, river-categories-by-creator-types, circles-stuff, actions to create blogs-photos-etc.*/
+	'menu:page:header:p1riverde' => 'News',
+	'river-de-all' => 'All',
+	'river-de-me' => 'Me',
+	'river-de-friends' => 'Friends',
+	'river-de-groups' => 'Groups',
+	'river-de-followings' => 'Following',
+
+	'menu:page:header:p4circles' => 'Circles',
+	'circle-world' => 'Main',
+	'circle-groups' => 'Groups',
+	'circle-friends' => 'Friends',
+	'circle-followings' => 'Following',
+	'circle-followers' => 'Followers',	
+
+	'menu:page:header:p7activities' => 'Activities',
+	'compose-blog' => 'Compose Blogs',
+	'share-photos' => 'Share Photos',
+	'share-musics' => 'Share Musics',
+	'share-videos' => 'Share Videos',
+	'share-links' => 'Share Links',
 
 ));
